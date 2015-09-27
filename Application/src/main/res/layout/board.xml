@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:id="@+id/OppStatus"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/Score"
+        android:orientation="horizontal"
+        android:layout_below="@+id/OppStatus">
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/Board"
+        android:orientation="horizontal"
+        android:layout_below="@+id/OppStatus"
+        android:layout_above="@+id/SubmitFiled">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/SubmitFiled"
+        android:orientation="horizontal"
+        android:layout_above="@+id/Cards">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/Submit"
+            android:text="Submit"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/Cards"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-0"
+            android:text="0"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-1"
+            android:text="1"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-2"
+            android:text="2"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-3"
+            android:text="3"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-4"
+            android:text="4"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-5"
+            android:text="5"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-6"
+            android:text="6"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-7"
+            android:text="7"
+            />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/Card-8"
+            android:text="8"
+            />
+
+
+
+    </LinearLayout>
+</RelativeLayout>
