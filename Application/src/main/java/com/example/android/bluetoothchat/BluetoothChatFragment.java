@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,7 +60,28 @@ public class BluetoothChatFragment extends Fragment {
     // Layout Views
     private ListView mConversationView;
     private EditText mOutEditText;
-    private Button mSendButton;
+    private Button mSubmitButton;
+
+    private Button mCard0;
+    private Button mCard1;
+    private Button mCard2;
+    private Button mCard3;
+    private Button mCard4;
+    private Button mCard5;
+    private Button mCard6;
+    private Button mCard7;
+    private Button mCard8;
+
+    private Button previous;
+
+    private TextView myCard;
+    private TextView oppCard;
+
+    private TextView whiteLeft;
+    private TextView blackLeft;
+
+    private TextView oppScore;
+    private TextView myScore;
 
     /**
      * Name of the connected device
@@ -85,6 +107,22 @@ public class BluetoothChatFragment extends Fragment {
      * Member object for the chat services
      */
     private BluetoothChatService mChatService = null;
+
+    private boolean received = false;
+    private boolean myTurn = false;
+
+    private int myValue = -1;
+    private int oppValue = -1;
+
+    private int myScoreValue = 0;
+    private int oppScoreValue = 0;
+
+    private int whiteLeftCount = 4;
+    private int blackLeftCount = 5;
+
+    private enum Result {
+        WIN, DRAW, LOSE, UNDEFINED
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,14 +181,34 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
+        //return inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
+        return inflater.inflate(R.layout.board, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mConversationView = (ListView) view.findViewById(R.id.in);
-        mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
-        mSendButton = (Button) view.findViewById(R.id.button_send);
+        //mConversationView = (ListView) view.findViewById(R.id.in);
+        //mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
+        mSubmitButton = (Button) view.findViewById(R.id.Submit);
+
+        mCard0 = (Button) view.findViewById(R.id.Card_0);
+        mCard1 = (Button) view.findViewById(R.id.Card_1);
+        mCard2 = (Button) view.findViewById(R.id.Card_2);
+        mCard3 = (Button) view.findViewById(R.id.Card_3);
+        mCard4 = (Button) view.findViewById(R.id.Card_4);
+        mCard5 = (Button) view.findViewById(R.id.Card_5);
+        mCard6 = (Button) view.findViewById(R.id.Card_6);
+        mCard7 = (Button) view.findViewById(R.id.Card_7);
+        mCard8 = (Button) view.findViewById(R.id.Card_8);
+
+        myCard = (TextView) view.findViewById(R.id.MyCard);
+        oppCard = (TextView) view.findViewById(R.id.OppCard);
+
+        whiteLeft = (TextView) view.findViewById(R.id.WhiteLeft);
+        blackLeft = (TextView) view.findViewById(R.id.BlackLeft);
+
+        oppScore = (TextView) view.findViewById(R.id.OppScore);
+        myScore = (TextView) view.findViewById(R.id.MyScore);
     }
 
     /**
@@ -162,21 +220,207 @@ public class BluetoothChatFragment extends Fragment {
         // Initialize the array adapter for the conversation thread
         mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
 
-        mConversationView.setAdapter(mConversationArrayAdapter);
+        //mConversationView.setAdapter(mConversationArrayAdapter);
 
         // Initialize the compose field with a listener for the return key
-        mOutEditText.setOnEditorActionListener(mWriteListener);
+        //mOutEditText.setOnEditorActionListener(mWriteListener);
 
-        // Initialize the send button with a listener that for click events
-        mSendButton.setOnClickListener(new View.OnClickListener() {
+        //
+        mCard0.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Send a message using content of the edit text widget
-                View view = getView();
-                if (null != view) {
-                    TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
-                    String message = textView.getText().toString();
-                    sendMessage(message);
+                mCard0.setEnabled(false);
+                mCard0.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
                 }
+                previous = mCard0;
+                myCard.setText("0");
+                myCard.setTextColor(Color.WHITE);
+                myCard.setBackgroundColor(Color.BLACK);
+            }
+        });
+
+        mCard1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard1.setEnabled(false);
+                mCard1.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard1;
+                myCard.setText("1");
+                myCard.setTextColor(Color.BLACK);
+                myCard.setBackgroundColor(Color.WHITE);
+            }
+        });
+
+        mCard2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard2.setEnabled(false);
+                mCard2.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard2;
+                myCard.setText("2");
+                myCard.setTextColor(Color.WHITE);
+                myCard.setBackgroundColor(Color.BLACK);
+            }
+        });
+
+        mCard3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard3.setEnabled(false);
+                mCard3.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard3;
+                myCard.setText("3");
+                myCard.setTextColor(Color.BLACK);
+                myCard.setBackgroundColor(Color.WHITE);
+            }
+        });
+
+        mCard4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard4.setEnabled(false);
+                mCard4.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard4;
+                myCard.setText("4");
+                myCard.setTextColor(Color.WHITE);
+                myCard.setBackgroundColor(Color.BLACK);
+            }
+        });
+
+        mCard5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard5.setEnabled(false);
+                mCard5.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard5;
+                myCard.setText("5");
+                myCard.setTextColor(Color.BLACK);
+                myCard.setBackgroundColor(Color.WHITE);
+            }
+        });
+
+        mCard6.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard6.setEnabled(false);
+                mCard6.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard6;
+                myCard.setText("6");
+                myCard.setTextColor(Color.WHITE);
+                myCard.setBackgroundColor(Color.BLACK);
+            }
+        });
+
+        mCard7.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard7.setEnabled(false);
+                mCard7.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard7;
+                myCard.setText("7");
+                myCard.setTextColor(Color.BLACK);
+                myCard.setBackgroundColor(Color.WHITE);
+            }
+        });
+
+        mCard8.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCard8.setEnabled(false);
+                mCard8.setBackgroundColor(Color.GRAY);
+                if (previous != null) {
+                    int previousId = Integer.parseInt(previous.getText().toString());
+                    if (previousId % 2 == 0) {
+                        previous.setBackgroundColor(Color.BLACK);
+                    }
+                    else {
+                        previous.setBackgroundColor(Color.WHITE);
+                    }
+                    previous.setEnabled(true);
+                }
+                previous = mCard8;
+                myCard.setText("0");
+                myCard.setTextColor(Color.WHITE);
+                myCard.setBackgroundColor(Color.BLACK);
+            }
+        });
+
+        // TODO: only allow one button to be selected at once
+        // Initialize the send button with a listener that for click events
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendMessage(myCard.getText().toString());
+                myValue = Integer.parseInt(myCard.getText().toString());
             }
         });
 
@@ -219,7 +463,7 @@ public class BluetoothChatFragment extends Fragment {
 
             // Reset out string buffer to zero and clear the edit text field
             mOutStringBuffer.setLength(0);
-            mOutEditText.setText(mOutStringBuffer);
+            //mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -288,6 +532,7 @@ public class BluetoothChatFragment extends Fragment {
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
                             setStatus(R.string.title_connecting);
+                            myTurn = true;
                             break;
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
@@ -305,7 +550,21 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    received = true;
+                    int received = Integer.parseInt(readMessage);
+                    if (received % 2 == 0) {
+                        oppCard.setBackgroundColor(Color.BLACK);
+                        blackLeftCount--;
+                        blackLeft.setText("Left: " + blackLeftCount);
+                    }
+                    else {
+                        oppCard.setBackgroundColor(Color.WHITE);
+                        whiteLeftCount--;
+                        whiteLeft.setText("Left: " + whiteLeftCount);
+                    }
+                    oppValue = received;
+                    //mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -313,6 +572,13 @@ public class BluetoothChatFragment extends Fragment {
                     if (null != activity) {
                         Toast.makeText(activity, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                        if (myTurn) {
+                            Toast.makeText(activity, "My turn: First", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(activity, "My turn: Second", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
@@ -352,6 +618,50 @@ public class BluetoothChatFragment extends Fragment {
                     getActivity().finish();
                 }
         }
+    }
+
+    private void calculateResult() {
+        // ready for calculation
+        if (received && myValue > -1 && oppValue > -1) {
+            Result res = isWin();
+            if (res == Result.WIN) {
+                myScoreValue++;
+                myScore.setText("My Score: " + myScoreValue);
+            }
+            else if (res == Result.LOSE) {
+                oppScoreValue++;
+                oppScore.setText("Opp Score: " + oppScoreValue);
+            }
+
+            //TODO: check if the color is correct
+            // reset my card and opp card
+            myCard.setBackgroundColor(Color.LTGRAY);
+            oppCard.setBackgroundColor(Color.LTGRAY);
+
+            // reset the grayed out card
+            previous.setVisibility(View.GONE);
+
+            myValue = -1;
+            oppValue = -1;
+        }
+        else if (received && !myTurn) {
+
+        }
+    }
+
+    private Result isWin() {
+        if (myValue > -1 & oppValue > -1) {
+            if (myValue > oppValue) {
+                return Result.WIN;
+            }
+            else if (myValue < oppValue) {
+                return Result.LOSE;
+            }
+            else {
+                return Result.DRAW;
+            }
+        }
+        return Result.UNDEFINED;
     }
 
     /**

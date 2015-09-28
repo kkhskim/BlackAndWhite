@@ -38,4 +38,12 @@
     <string name="insecure_connect">Connect a device - Insecure</string>
     <string name="discoverable">Make discoverable</string>
 
+    <!--GameBoard-->
+    <string name="Submit">Submit</string>
+    <string name="OppoStatusHeader">Number of cards available in opponent\'s hand</string>
+    <string name="WhiteLeft">Left: 4</string>
+    <string name="BlackLeft">Left: 5</string>
+    <string name="OppScore">Opp Score: 0</string>
+    <string name="MyScore">My Score: 0</string>
+
 </resources>
