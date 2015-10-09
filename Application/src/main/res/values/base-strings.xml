@@ -16,19 +16,27 @@
 -->
 
 <resources>
-    <string name="app_name">BluetoothChat</string>
+    <string name="app_name">BlackandWhite</string>
     <string name="intro_message">
         <![CDATA[
         
             
-            This application allows two Android devices to carry out two-way text chat over
-            Bluetooth. It demonstrates all the fundamental Bluetooth API capabilites, such as:
-              (1) Scanning for other Bluetooth devices
-              (2) Querying the local Bluetooth adapter for paired Bluetooth devices
-              (3) Establishing RFCOMM channels/sockets
-              (4) Connecting to a remote device
-              (5) Transfering data over Bluetooth
-            
+            <!--This application allows two Android devices to carry out two-way text chat over-->
+            <!--Bluetooth. It demonstrates all the fundamental Bluetooth API capabilites, such as:-->
+              <!--(1) Scanning for other Bluetooth devices-->
+              <!--(2) Querying the local Bluetooth adapter for paired Bluetooth devices-->
+              <!--(3) Establishing RFCOMM channels/sockets-->
+              <!--(4) Connecting to a remote device-->
+              <!--(5) Transfering data over Bluetooth-->
+            <!-- -->
+            This app allows two Android devices that support Bluetooth functionality to play a game.
+            Each player starts with 9cards illustrating 0 to 8.
+            Even numbers are written on the black cards and odd numbers are written on the white cards.
+            Player who sends out bluetooth connection signal will be the first player.
+            For each round, each player uses one from the deck by revealing the number at the same time.
+            A player with higher number wins the round and gets a score.
+            Until Each player uses all the cards, round continues.
+            Finally, a player with the highest score wins the game.
         
         ]]>
     </string>

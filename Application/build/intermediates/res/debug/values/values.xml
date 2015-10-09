@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFAFAFA</color>
@@ -12,10 +12,10 @@
     <dimen name="cardview_compat_inset_shadow">1dp</dimen>
     <dimen name="cardview_default_elevation">2dp</dimen>
     <dimen name="cardview_default_radius">2dp</dimen>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/23.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="default_gap">8dip</dimen>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/template-dimens.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/template-dimens.xml -->
     <eat-comment/>
     <dimen name="horizontal_page_margin">@dimen/margin_medium</dimen>
     <dimen name="margin_huge">64dp</dimen>
@@ -24,42 +24,58 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_tiny">4dp</dimen>
     <dimen name="vertical_page_margin">@dimen/margin_medium</dimen>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/base-strings.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">BluetoothChat</string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
+    <string name="BlackLeft">Left: 5</string>
+    <string name="MyScore">My Score: 0</string>
+    <string name="OppScore">Opp Score: 0</string>
+    <string name="OppoStatusHeader">Number of cards available in opponent\'s hand</string>
+    <string name="Submit">Submit</string>
+    <string name="WhiteLeft">Left: 4</string>
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/base-strings.xml -->
+    <eat-comment/>
+    <string name="app_name">BlackandWhite</string>
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving Bluetooth Chat.</string>
     <string name="button_scan">Scan for devices</string>
     <string name="discoverable">Make discoverable</string>
     <string name="insecure_connect">Connect a device - Insecure</string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/base-strings.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/base-strings.xml -->
     <eat-comment/>
     <string name="intro_message">
         <![CDATA[
         
             
-            This application allows two Android devices to carry out two-way text chat over
-            Bluetooth. It demonstrates all the fundamental Bluetooth API capabilites, such as:
-              (1) Scanning for other Bluetooth devices
-              (2) Querying the local Bluetooth adapter for paired Bluetooth devices
-              (3) Establishing RFCOMM channels/sockets
-              (4) Connecting to a remote device
-              (5) Transfering data over Bluetooth
-            
+            <!--This application allows two Android devices to carry out two-way text chat over-->
+            <!--Bluetooth. It demonstrates all the fundamental Bluetooth API capabilites, such as:-->
+              <!--(1) Scanning for other Bluetooth devices-->
+              <!--(2) Querying the local Bluetooth adapter for paired Bluetooth devices-->
+              <!--(3) Establishing RFCOMM channels/sockets-->
+              <!--(4) Connecting to a remote device-->
+              <!--(5) Transfering data over Bluetooth-->
+            <!-- -->
+            This app allows two Android devices that support Bluetooth functionality to play a game.
+            Each player starts with 9cards illustrating 0 to 8.
+            Even numbers are written on the black cards and odd numbers are written on the white cards.
+            Player who sends out bluetooth connection signal will be the first player.
+            For each round, each player uses one from the deck by revealing the number at the same time.
+            A player with higher number wins the round and gets a score.
+            Until Each player uses all the cards, round continues.
+            Finally, a player with the highest score wins the game.
         
         ]]>
     </string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="none_found">No devices found</string>
     <string name="none_paired">No devices have been paired</string>
     <string name="not_connected">You are not connected to a device</string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/fragmentview_strings.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/fragmentview_strings.xml -->
     <eat-comment/>
     <string name="sample_hide_log">Hide Log</string>
     <string name="sample_show_log">Show Log</string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="scanning">scanning for devices...</string>
     <string name="secure_connect">Connect a device - Secure</string>
@@ -70,10 +86,10 @@
     <string name="title_not_connected">not connected</string>
     <string name="title_other_devices">Other Available Devices</string>
     <string name="title_paired_devices">Paired Devices</string>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/template-styles.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/template-styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.Sample"/>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="CardView">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
@@ -89,7 +105,7 @@
     <style name="CardView.Light">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
-    <!-- From: file:/C:/Users/Lee/Desktop/BlackAndWhite/Application/src/main/res/values/template-styles.xml -->
+    <!-- From: file:/Users/J/Desktop/BlackAndWhite/Application/src/main/res/values/template-styles.xml -->
     <eat-comment/>
     <style name="Theme.Base" parent="android:Theme.Light"/>
     <style name="Theme.Sample" parent="Theme.Base"/>

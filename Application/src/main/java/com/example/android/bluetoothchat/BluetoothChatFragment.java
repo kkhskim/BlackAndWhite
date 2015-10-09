@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -224,6 +225,15 @@ public class BluetoothChatFragment extends Fragment {
 
         // Initialize the compose field with a listener for the return key
         //mOutEditText.setOnEditorActionListener(mWriteListener);
+
+        // TODO: Create a rule explanation button and enable this function
+        /*
+        ruleExplanation.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=F0X8JbX4Mjk")));
+                Log.i("Video", "Video Playing....");
+            }
+        });*/
 
         //
         mCard0.setOnClickListener(new View.OnClickListener() {
