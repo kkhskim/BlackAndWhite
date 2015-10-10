@@ -110,6 +110,7 @@ public class BluetoothChatFragment extends Fragment {
     private BluetoothChatService mChatService = null;
 
     private boolean received = false;
+    private boolean sent = false;
     private boolean myTurn = false;
 
     private int myValue = -1;
@@ -419,18 +420,46 @@ public class BluetoothChatFragment extends Fragment {
                     previous.setEnabled(true);
                 }
                 previous = mCard8;
-                myCard.setText("0");
+                myCard.setText("8");
                 myCard.setTextColor(Color.WHITE);
                 myCard.setBackgroundColor(Color.BLACK);
             }
         });
 
-        // TODO: only allow one button to be selected at once
         // Initialize the send button with a listener that for click events
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendMessage(myCard.getText().toString());
-                myValue = Integer.parseInt(myCard.getText().toString());
+                FragmentActivity activity = getActivity();
+                if (myCard.getText().toString() == "") {
+                    Toast.makeText(activity, "Please select a card", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    sendMessage(myCard.getText().toString());
+                    sent = true;
+                    myValue = Integer.parseInt(myCard.getText().toString());
+                    if (myValue == 0) {
+                        mCard0.setVisibility(View.GONE);
+                    } else if (myValue == 1) {
+                        mCard1.setVisibility(View.GONE);
+                    } else if (myValue == 2) {
+                        mCard2.setVisibility(View.GONE);
+                    } else if (myValue == 3) {
+                        mCard3.setVisibility(View.GONE);
+                    } else if (myValue == 4) {
+                        mCard4.setVisibility(View.GONE);
+                    } else if (myValue == 5) {
+                        mCard5.setVisibility(View.GONE);
+                    } else if (myValue == 6) {
+                        mCard6.setVisibility(View.GONE);
+                    } else if (myValue == 7) {
+                        mCard7.setVisibility(View.GONE);
+                    } else if (myValue == 8) {
+                        mCard8.setVisibility(View.GONE);
+                    }
+                    mSubmitButton.setEnabled(false);
+
+                    controlButtonEnability(false);
+                }
             }
         });
 
@@ -526,12 +555,59 @@ public class BluetoothChatFragment extends Fragment {
         actionBar.setSubtitle(subTitle);
     }
 
+    private void setFirstConnection() {
+        //TODO: Reset all the scores along with all the buttons
+        // Resetting all buttons to be Enabled
+        mSubmitButton.setEnabled(true);
+        mCard0.setEnabled(true);
+        mCard1.setEnabled(true);
+        mCard2.setEnabled(true);
+        mCard3.setEnabled(true);
+        mCard4.setEnabled(true);
+        mCard5.setEnabled(true);
+        mCard6.setEnabled(true);
+        mCard7.setEnabled(true);
+        mCard8.setEnabled(true);
+
+        // Resetting all buttons' visibility to be Visible
+        mCard0.setVisibility(View.VISIBLE);
+        mCard1.setVisibility(View.VISIBLE);
+        mCard2.setVisibility(View.VISIBLE);
+        mCard3.setVisibility(View.VISIBLE);
+        mCard4.setVisibility(View.VISIBLE);
+        mCard5.setVisibility(View.VISIBLE);
+        mCard6.setVisibility(View.VISIBLE);
+        mCard7.setVisibility(View.VISIBLE);
+        mCard8.setVisibility(View.VISIBLE);
+
+        myScoreValue = 0;
+        oppScoreValue = 0;
+        blackLeftCount = 5;
+        whiteLeftCount = 4;
+
+        whiteLeft.setText("Left: " + whiteLeftCount);
+        blackLeft.setText("Left: " + blackLeftCount);
+
+        myScore.setText("My Score: " + myScoreValue);
+        oppScore.setText("Opp Score: " + oppScoreValue);
+
+        myCard.setText("");
+
+        myCard.setBackgroundColor(Color.LTGRAY);
+        oppCard.setBackgroundColor(Color.LTGRAY);
+    }
+
     /**
      * The Handler that gets information back from the BluetoothChatService
      */
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if (mConnectedDeviceName == null) {
+                mSubmitButton.setEnabled(false);
+                controlButtonEnability(false);
+
+            }
             FragmentActivity activity = getActivity();
             switch (msg.what) {
                 case Constants.MESSAGE_STATE_CHANGE:
@@ -555,14 +631,27 @@ public class BluetoothChatFragment extends Fragment {
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
                     mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    Handler writeHandler = new Handler();
+                    writeHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            if (sent && received) {
+                                calculateResult();
+                            }
+                        }
+                    }, 1500);
                     break;
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     received = true;
-                    int received = Integer.parseInt(readMessage);
-                    if (received % 2 == 0) {
+                    // TODO: change turn according to the game calculation result (if my value is set: i.e. cards are all set)
+                    myTurn = !myTurn;
+                    mSubmitButton.setEnabled(myTurn);
+                    controlButtonEnability(myTurn);
+                    //TODO: ====================THis is SUPER IMPORTANT SHIT==============
+                    int receivedValue = Integer.parseInt(readMessage);
+                    if (receivedValue % 2 == 0) {
                         oppCard.setBackgroundColor(Color.BLACK);
                         blackLeftCount--;
                         blackLeft.setText("Left: " + blackLeftCount);
@@ -572,13 +661,24 @@ public class BluetoothChatFragment extends Fragment {
                         whiteLeftCount--;
                         whiteLeft.setText("Left: " + whiteLeftCount);
                     }
-                    oppValue = received;
+                    oppValue = receivedValue;
+
+                    Handler readHandler = new Handler();
+                    readHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            if (sent && received) {
+                                calculateResult();
+                            }
+                        }
+                    }, 1500);
+
                     //mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
 
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+                    setFirstConnection();
                     if (null != activity) {
                         Toast.makeText(activity, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
@@ -587,6 +687,7 @@ public class BluetoothChatFragment extends Fragment {
                         }
                         else {
                             Toast.makeText(activity, "My turn: Second", Toast.LENGTH_SHORT).show();
+                            mSubmitButton.setEnabled(false);
                         }
 
                     }
@@ -630,48 +731,70 @@ public class BluetoothChatFragment extends Fragment {
         }
     }
 
-    private void calculateResult() {
-        // ready for calculation
-        if (received && myValue > -1 && oppValue > -1) {
-            Result res = isWin();
-            if (res == Result.WIN) {
-                myScoreValue++;
-                myScore.setText("My Score: " + myScoreValue);
-            }
-            else if (res == Result.LOSE) {
-                oppScoreValue++;
-                oppScore.setText("Opp Score: " + oppScoreValue);
-            }
 
-            //TODO: check if the color is correct
-            // reset my card and opp card
-            myCard.setBackgroundColor(Color.LTGRAY);
-            oppCard.setBackgroundColor(Color.LTGRAY);
-
-            // reset the grayed out card
-            previous.setVisibility(View.GONE);
-
-            myValue = -1;
-            oppValue = -1;
-        }
-        else if (received && !myTurn) {
-
-        }
+    // Function that disables the buttons if it is not my turn + enables buttons if it is my turn
+    private void controlButtonEnability(boolean isEnabled) {
+        mCard0.setEnabled(isEnabled);
+        mCard1.setEnabled(isEnabled);
+        mCard2.setEnabled(isEnabled);
+        mCard3.setEnabled(isEnabled);
+        mCard4.setEnabled(isEnabled);
+        mCard5.setEnabled(isEnabled);
+        mCard6.setEnabled(isEnabled);
+        mCard7.setEnabled(isEnabled);
+        mCard8.setEnabled(isEnabled);
     }
 
-    private Result isWin() {
-        if (myValue > -1 & oppValue > -1) {
-            if (myValue > oppValue) {
-                return Result.WIN;
+    private void calculateResult() {
+        sent = false;
+        received = false;
+        if (oppValue > myValue) { // YOU WIN!
+            Toast.makeText(getActivity(), "You Lost!", Toast.LENGTH_SHORT).show();
+            oppScoreValue++;
+            oppScore.setText("Opp Score: " + oppScoreValue);
+            myTurn = false;
+        }
+        else if (oppValue < myValue){ // I WIN!
+            Toast.makeText(getActivity(), "You Won!", Toast.LENGTH_SHORT).show();
+            myScoreValue++;
+            myScore.setText("My Score: " + myScoreValue);
+            myTurn = true;
+            mSubmitButton.setEnabled(true);
+        }
+        else { // Draw Case
+            Toast.makeText(getActivity(), "Draw...", Toast.LENGTH_SHORT).show();
+            myTurn = !myTurn;
+            mSubmitButton.setEnabled(myTurn);
+        }
+        oppCard.setBackgroundColor(Color.LTGRAY);
+        myCard.setBackgroundColor(Color.LTGRAY);
+        myCard.setText("");
+
+        // Exiting the game if both the left numbers are zero
+        int totalCardLeft = blackLeftCount + whiteLeftCount;
+        if (((blackLeftCount == 0) && (whiteLeftCount == 0)) || (oppScoreValue > myScoreValue +totalCardLeft) || (myScoreValue > oppScoreValue +totalCardLeft)) {
+            if ((myScoreValue > oppScoreValue +totalCardLeft)) {
+                Toast.makeText(getActivity(), "I AM THE WINNER!!! WINNER WINNER CHICKEN DINNER!!!", Toast.LENGTH_SHORT).show();
+                setFirstConnection();
+                myTurn = true;
+                mSubmitButton.setEnabled(myTurn);
             }
-            else if (myValue < oppValue) {
-                return Result.LOSE;
+            else if ((oppScoreValue > myScoreValue + totalCardLeft)) {
+                Toast.makeText(getActivity(), "I am such a loser.... Big Bang Loser", Toast.LENGTH_SHORT).show();
+                setFirstConnection();
+                myTurn = false;
+                mSubmitButton.setEnabled(myTurn);
             }
-            else {
-                return Result.DRAW;
+            else if (oppScoreValue == myScoreValue){
+                Toast.makeText(getActivity(), "This is a draw game", Toast.LENGTH_SHORT).show();
+                setFirstConnection();
+
+                mSubmitButton.setEnabled(myTurn);
+                controlButtonEnability(myTurn);
             }
         }
-        return Result.UNDEFINED;
+
+        controlButtonEnability(myTurn);
     }
 
     /**
