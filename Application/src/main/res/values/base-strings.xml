@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2013 The Android Open Source Project
+ Modifications 2017 made by bjh418 & kkhskim & ljj7975
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,8 +20,8 @@
     <string name="app_name">BlackandWhite</string>
     <string name="intro_message">
         <![CDATA[
-        
-            
+
+
             <!--This application allows two Android devices to carry out two-way text chat over-->
             <!--Bluetooth. It demonstrates all the fundamental Bluetooth API capabilites, such as:-->
               <!--(1) Scanning for other Bluetooth devices-->
@@ -37,7 +38,7 @@
             A player with higher number wins the round and gets a score.
             Until Each player uses all the cards, round continues.
             Finally, a player with the highest score wins the game.
-        
+
         ]]>
     </string>
 </resources>

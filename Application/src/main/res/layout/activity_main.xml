@@ -1,5 +1,6 @@
 <!--
   Copyright 2013 The Android Open Source Project
+  Modifications 2017 made by bjh418 & kkhskim & ljj7975
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -62,4 +63,3 @@
           android:layout_height="fill_parent" />
 
 </LinearLayout>
-
